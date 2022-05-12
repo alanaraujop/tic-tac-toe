@@ -2,10 +2,14 @@ const prompt = require('prompt-sync')()
 
 const emptyString = ' ';
 const boardData = Array(9).fill(emptyString)
+
+const playerOne = prompt('Nome do jogador 1: ')
+const playerTwo = prompt('Nome do jogador 2: ')
+
 const players = {1: 'x', 2: 'o'};
 let currentPlayer = players[1];
-
-
+let currentNamePlayer = playerOne
+let ganhador = ''
 
 function drewBoard(positions){
     console.log( `
@@ -17,7 +21,6 @@ function drewBoard(positions){
     `)
 }
 
-
 function changePlayer(){
     if(currentPlayer === players[1]){
         return currentPlayer = players[2]
@@ -27,21 +30,36 @@ function changePlayer(){
     }
 }
 
-function setPlayerMovement(position){
-    if(isEmpty(position)){
-    boardData[position] = changePlayer()
+function changePlayerName(){
+    if(currentNamePlayer === playerOne){
+        return currentNamePlayer = playerTwo
     }
     else{
-        console.log(`A posição ${position} ja foi utilizada.`)
+        return currentNamePlayer = playerOne
     }
+}
+
+function setPlayerMovement(position){
+    if(isEmpty(position)){
+    boardData[position] = currentPlayer
     drewBoard(boardData)
     isWinner(boardData)
     isOldLady(boardData)
+    changePlayerName()
+    changePlayer()
+    }
+    else{
+        if (position >= 0 && position < 9){
+            console.log(`A posição ${position} ja foi utilizada.`)
+        }
+        else{
+            console.log('A posição que você digitou é inválida.')
+        }
+    }
 }
 
 function isWinner(boardData){
     jogadas = boardData
-    
     for (p = 0; p <9; p++) {
         jogadas.push(p)
     }
@@ -55,7 +73,11 @@ function isWinner(boardData){
     (jogadas[0] === jogadas[4] && jogadas[4] == jogadas[8] && jogadas[8] != ' ') ||
     (jogadas[2] === jogadas[4] && jogadas[4] == jogadas[6] && jogadas[6] != ' ')
     ){
-        return console.log(`O vencedor é o jogador: ${currentPlayer}`)
+        console.log(`O vencedor é o jogador: ${currentNamePlayer}`)
+        return true
+    }
+    else{
+        return false
     }
 }
 
@@ -65,12 +87,12 @@ function isEmpty(position){
 
 function isOldLady(boardData){
     if (boardData.includes(' ')){
+        return false
     }
     else{
         return console.log('DEU VELHA')
     }
 }
-
 
 function showTutorial(){
     console.log(`
@@ -85,4 +107,21 @@ function showTutorial(){
     `)
 }
 
-setPlayerMovement(0)
+function isFinished(){
+    return boardData.includes(' ') ? false : true;
+}
+
+function continuarJogo(){
+    while(true){
+        continuar = prompt('Deseja jogar outra partida? [s / n]: ')
+        if (continuar === 's' || continuar === 'n'){break} 
+    }
+    if (continuar === 's'){
+        return jogoDaVelha()
+    }
+    else{
+        return false
+    }
+}
+
+
