@@ -1,7 +1,10 @@
+const prompt = require('prompt-sync')()
+
 const emptyString = ' ';
 const boardData = Array(9).fill(emptyString)
 const players = {1: 'x', 2: 'o'};
 let currentPlayer = players[1];
+
 
 
 function drewBoard(positions){
@@ -14,9 +17,6 @@ function drewBoard(positions){
     `)
 }
 
-function isEmpty(position){
-    return boardData[position] === emptyString;
-}
 
 function changePlayer(){
     if(currentPlayer === players[1]){
@@ -35,27 +35,54 @@ function setPlayerMovement(position){
         console.log(`A posição ${position} ja foi utilizada.`)
     }
     drewBoard(boardData)
+    isWinner(boardData)
+    isOldLady(boardData)
 }
 
+function isWinner(boardData){
+    jogadas = boardData
+    
+    for (p = 0; p <9; p++) {
+        jogadas.push(p)
+    }
+    if(
+    (jogadas[0] === jogadas[1] && jogadas[1] == jogadas[2] && jogadas[2] != ' ') ||
+    (jogadas[3] === jogadas[4] && jogadas[4] == jogadas[5] && jogadas[5] != ' ') ||
+    (jogadas[6] === jogadas[7] && jogadas[7] == jogadas[8] && jogadas[8] != ' ') ||
+    (jogadas[0] === jogadas[3] && jogadas[3] == jogadas[6] && jogadas[6] != ' ') ||
+    (jogadas[1] === jogadas[4] && jogadas[4] == jogadas[7] && jogadas[7] != ' ') ||
+    (jogadas[2] === jogadas[5] && jogadas[5] == jogadas[8] && jogadas[8] != ' ') ||
+    (jogadas[0] === jogadas[4] && jogadas[4] == jogadas[8] && jogadas[8] != ' ') ||
+    (jogadas[2] === jogadas[4] && jogadas[4] == jogadas[6] && jogadas[6] != ' ')
+    ){
+        return console.log(`O vencedor é o jogador: ${currentPlayer}`)
+    }
+}
 
+function isEmpty(position){
+    return boardData[position] === emptyString;
+}
 
-setPlayerMovement(6)
-setPlayerMovement(1)
-setPlayerMovement(4)
-setPlayerMovement(4)
-
-drewBoard(boardData)
+function isOldLady(boardData){
+    if (boardData.includes(' ')){
+    }
+    else{
+        return console.log('DEU VELHA')
+    }
+}
 
 
 function showTutorial(){
     console.log(`
 ### Escolha a posição que deseja jogar baseado no tabuleiro abaixo.
-    0 | 1 | 2
+    0o | 1o | 2x
     —————————
-    3 | 4 | 5
+    3x | 4x | 5o
     —————————
-    6 | 7 | 8
+    6o | 7x | 8o
 
 ###############################################################
     `)
 }
+
+setPlayerMovement(0)
