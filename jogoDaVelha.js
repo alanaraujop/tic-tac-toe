@@ -116,8 +116,8 @@ function restarBoard(boardData){
 //Mostra o placar atual
 function showScore(){
     console.log(`
-${playerOne} ->  ${scorePlayerOne.score}
-${playerTwo} ->  ${scorePlayerTwo.score}
+[ ${playerOne} ] =>   ${scorePlayerOne.score}  
+[ ${playerTwo} ] =>   ${scorePlayerTwo.score} 
     `)
 }
 
@@ -140,12 +140,36 @@ function scoreGame(){
     
 }
 
+//Função que verifica se os jogadores querem continuar a jogar
+function continueGame(){
+    let optionContinue = prompt('Deseja jogar outra partida: [s / n]-> ')
+    while (optionContinue != 's' && optionContinue != 'n'){
+        optionContinue = prompt("Entrada inválida, digite apenas 's' ou 'n': ")
+    }
+    if (optionContinue === 's'){
+        return true
+    }
+    else{
+        return false
+    }
+}
+
+//Função que encerra o jogo
+function endGame(){
+    console.log(`_______________________________________
+
+PLACAR FINAL:`)
+        showScore()
+        console.log(`FIM DE JOGO
+_______________________________________`)
+}
+
 //Executa todas as funções criadas
 //Cria um loop que enquanto não houver vencedor e não "DEU VELHA", continuará pedindo jogadas
 //Quando uma das condições é satisfeita, temos um resultado para um vencedor e outro para empate
 //Ao final, é perguntado se os jogadores desejam jogar novamente com um leve tratamento de erro nas possiveis respostas
 //Caso os jogadores não desejem mais jogar, o placar final é impresso e o programa é finalizado.
-function jogoDaVelha(){
+function ticTacToe(){
     while(isWinner(boardData) === false && isOldLady(boardData) === false){
         drewBoard(boardData)
         setPlayerMovement(prompt(`Jogador [ ${currentNamePlayer} ] faça sua jogada --> `))
@@ -160,24 +184,17 @@ function jogoDaVelha(){
         console.log('____DEU VELHA____')
         scoreGame()
     }
-    let continueGame = prompt('Deseja jogar outra partida: [s / n]-> ')
-    while (continueGame != 's' && continueGame != 'n'){
-        continueGame = prompt("Entrada inválida, digite apenas 's' ou 'n': ")
-    }
-    if (continueGame === 's'){
+
+    if (continueGame() === true){
         restarBoard(boardData)
-        jogoDaVelha()
+        ticTacToe()
     }
     else{
-        console.log(`_______________________________________
-PLACAR FINAL`)
-        showScore()
-        console.log(`FIM DE JOGO
-_______________________________________`)
-    }
+        endGame()
+}
 
 
 }
 
 //Chamada da função para iniciar o programa
-jogoDaVelha()
+ticTacToe()
