@@ -153,7 +153,6 @@ function ticTacToe() {
         scoreGame()
     }
     continueGame()
-
 }
 
 //Chamada da função para iniciar o programa
