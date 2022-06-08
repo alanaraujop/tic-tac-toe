@@ -41,6 +41,7 @@ function changePlayerName() {
 //Função que executa a jogada no tabuleiro, verifica se há um vencedor ou se deu velha
 //É responsável por executar a função de trocar o nome e o jogador após efeturar uma jogada
 function setPlayerMovement(position) {
+    console.clear()
     if (isEmpty(position)) {
         boardData[position] = currentPlayer
         isWinner(boardData)
@@ -84,6 +85,7 @@ function isOldLady(boardData) {
 
 //Reinicia o tabuleiro após o fim de uma rodada
 function restartBoard(boardData) {
+    console.clear()
     for (p = 0; p < 9; p++) {
         boardData[p] = emptyString
     }
@@ -113,6 +115,7 @@ function scoreGame() {
 
 //Função que encerra o jogo
 function endGame() {
+    console.clear()
     console.log(`_______________________________________
 
 PLACAR FINAL:`)
